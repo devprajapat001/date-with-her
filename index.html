@@ -760,6 +760,7 @@
                     selectedChips.push(chip.getAttribute("data-value"));
                 });
 
+                // Show the final letter animation
                 switchScreen("screen-5", "screen-7");
 
                 const submitBar = document.getElementById("submit-progress");
@@ -770,33 +771,27 @@
                     if(loadWidth >= 100) {
                         clearInterval(loaderInterval);
                         
-                        document.getElementById("submit-loader").style.display = "none";
-                        document.getElementById("final-letter").classList.add("visible");
+                        document.getElementById("submit-loader").classList.add("hide");
+                        document.getElementById("final-letter").classList.remove("hide");
                         
                         startCountdown(dateVal, timeVal);
+
+                        // --- THE WHATSAPP MAGIC ---
+                        // Replace '91XXXXXXXXXX' with your actual country code + phone number
+                        const myPhoneNumber = "917049843890"; 
+                        
+                        // Format the message beautifully
+                        const whatsappMessage = `Hey Dev! ❤️ I locked in our date!\n\n🗓 *Date:* ${dateVal}\n⏰ *Time:* ${timeVal}\n🎯 *Activities:* ${selectedChips.join(", ")}\n💌 *Extra Wishes:* ${notesVal || "Nothing else, just you! ❤️"}`;
+                        
+                        // Create the WhatsApp link and open it
+                        const whatsappUrl = `https://wa.me/${myPhoneNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+                        
+                        // Open WhatsApp after a short 1.5 second delay so she can read the final letter first
+                        setTimeout(() => {
+                            window.open(whatsappUrl, '_blank');
+                        }, 1500);
                     }
                 }, 100);
-
-                const transmissionPayload = {
-                    date: dateVal,
-                    time: timeVal,
-                    activities: selectedChips.join(", "),
-                    message: notesVal,
-                    timestamp: new Date().toLocaleString()
-                };
-
-                // NAYA BULLETPROOF FETCH CODE
-                if (WEB_APP_URL !== "https://script.google.com/macros/s/AKfycbx598bVbMc4Q1UEAonX9EYNl4z5ILWkhTzuFC7JE15UrxVJiLMhFaNhtcAlySj53q6n/exec") {
-                    fetch(WEB_APP_URL, {
-                        method: "POST",
-                        headers: { 
-                            "Content-Type": "text/plain;charset=utf-8" 
-                        },
-                        body: JSON.stringify(transmissionPayload)
-                    })
-                    .then(response => console.log("Data successfully sent to Google!"))
-                    .catch(err => console.error("Error:", err));
-                }
             });
         }
 
