@@ -1,1 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Date With Her ❤️</title>
+</head>
 
+<body>
+
+<h1>Hello Beautiful ❤️</h1>
+
+<button onclick="sayYes()">Yes ❤️</button>
+
+<button onclick="sayNo()" id="noBtn">No 🙈</button>
+
+<script>
+function sayYes(){
+    alert("Yayyyy ❤️");
+}
+
+let count=0;
+
+const messages=[
+"Are you sure? 🥺",
+"Sachiiii? 😭",
+"Ek baar aur soch lo ❤️",
+"Chocolate bhi khilaunga 🍫",
+"Pretty Please 🥹",
+"Fine...Yes ❤️"
+];
+
+function sayNo(){
+
+document.getElementById("noBtn").innerHTML=messages[count];
+
+count++;
+
+if(count>=messages.length){
+count=messages.length-1;
+}
+
+}
+</script>
+
+</body>
+
+</html>
