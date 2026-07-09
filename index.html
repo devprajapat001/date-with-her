@@ -760,10 +760,9 @@
                     selectedChips.push(chip.getAttribute("data-value"));
                 });
 
-                // Show the loader screen immediately
+                // Transition to Screen 7
                 switchScreen("screen-5", "screen-7");
 
-                // Safely run the progress bar animation
                 const submitBar = document.getElementById("submit-progress");
                 let loadWidth = 0;
                 const loaderInterval = setInterval(() => {
@@ -773,15 +772,19 @@
                     if(loadWidth >= 100) {
                         clearInterval(loaderInterval);
                         
-                        // Hide loader and smoothly show the final letter
-                        document.getElementById("submit-loader").classList.add("hide");
-                        document.getElementById("final-letter").classList.remove("hide");
+                        // BULLETPROOF SCREEN SWAP (Ignores CSS classes entirely)
+                        document.getElementById("submit-loader").style.display = "none";
+                        
+                        const finalLetter = document.getElementById("final-letter");
+                        finalLetter.style.display = "block";
+                        finalLetter.style.opacity = "1";
+                        finalLetter.style.pointerEvents = "auto";
                         
                         startCountdown(dateVal, timeVal);
                     }
                 }, 100);
 
-                // The Magic: Send data silently to your Gmail!
+                // Silently sends data to your Gmail via FormSubmit
                 fetch("https://formsubmit.co/ajax/devprajapat.ecom@gmail.com", {
                     method: "POST",
                     headers: { 
