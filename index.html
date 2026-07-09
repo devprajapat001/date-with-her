@@ -443,7 +443,7 @@
                 </div>
             </div>
 
-            <div id="final-letter" class="glass-card text-center fade-in-btn">
+            <div id="final-letter" class="glass-card text-center" style="display: none;">
                 <h1 class="accent-title">Dear Tannu ❤️</h1>
                 <div class="letter-body">
                     <p>Thank you for choosing to spend your time with me.</p>
@@ -760,11 +760,13 @@
                     selectedChips.push(chip.getAttribute("data-value"));
                 });
 
-                // Transition to Screen 7
+                // Screen change karo
                 switchScreen("screen-5", "screen-7");
 
+                // Progress bar animation
                 const submitBar = document.getElementById("submit-progress");
                 let loadWidth = 0;
+                
                 const loaderInterval = setInterval(() => {
                     loadWidth += 4;
                     submitBar.style.width = loadWidth + "%";
@@ -772,36 +774,36 @@
                     if(loadWidth >= 100) {
                         clearInterval(loaderInterval);
                         
-                        // BULLETPROOF SCREEN SWAP (Ignores CSS classes entirely)
+                        // Loader chupao aur final letter dikhao (Bina kisi popup ke)
                         document.getElementById("submit-loader").style.display = "none";
-                        
-                        const finalLetter = document.getElementById("final-letter");
-                        finalLetter.style.display = "block";
-                        finalLetter.style.opacity = "1";
-                        finalLetter.style.pointerEvents = "auto";
+                        document.getElementById("final-letter").style.display = "block";
                         
                         startCountdown(dateVal, timeVal);
                     }
                 }, 100);
 
-                // Silently sends data to your Gmail via FormSubmit
-                fetch("https://formsubmit.co/ajax/devprajapat.ecom@gmail.com", {
+                // --- SILENT BACKGROUND SUBMISSION (THE MAGIC) ---
+                // Yahan apni actual Web3Forms wali Access Key daalna
+                const web3formsKey = "PASTE_YOUR_ACCESS_KEY_HERE"; 
+                
+                fetch("https://api.web3forms.com/submit", {
                     method: "POST",
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
                     },
                     body: JSON.stringify({
-                        _subject: "Tannu Planned The Date! ❤️",
+                        access_key: web3formsKey,
+                        subject: "❤️ Tannu's Date Plan ❤️",
                         Date: dateVal,
                         Time: timeVal,
                         Activities: selectedChips.join(", "),
-                        Message: notesVal || "No extra wishes, just you! ❤️"
+                        Message: notesVal || "Nothing else!"
                     })
                 })
-                .then(response => response.json())
-                .then(data => console.log("Email sent safely to Dev!"))
-                .catch(error => console.log("Background email fetch completed."));
+                .then(res => res.json())
+                .then(data => console.log("Silently sent!"))
+                .catch(err => console.log("Error avoided silently."));
             });
         }
 
