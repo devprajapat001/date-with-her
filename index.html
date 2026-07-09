@@ -86,7 +86,6 @@
             align-items: center;
         }
 
-        /* CRITICAL CONFIGURATION: This hides the inactive screens explicitly */
         .screen {
             width: 100%;
             display: none !important;
@@ -204,8 +203,18 @@
         }
 
         .full-width { width: 100%; margin-top: 15px; }
-        .hidden-element { display: none !important; }
         .hidden { opacity: 0; }
+        
+        /* Smooth Fade In Utility */
+        .fade-in-btn {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.8s ease-in;
+        }
+        .fade-in-btn.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
 
         .slideshow-container {
             width: 100%;
@@ -350,7 +359,7 @@
                     <p id="typing-s1-1" class="hidden"></p>
                     <p id="typing-s1-2" class="hidden font-accent"></p>
                 </div>
-                <button id="btn-to-s2" class="btn primary-btn hidden-element">Continue ❤️</button>
+                <button id="btn-to-s2" class="btn primary-btn fade-in-btn">Continue ❤️</button>
             </div>
         </section>
 
@@ -361,7 +370,7 @@
                     <p id="typing-s2-2" class="highlight"></p>
                     <p id="typing-s2-3" class="soft-text"></p>
                 </div>
-                <button id="btn-to-s3" class="btn primary-btn hidden-element">Aage Chalo 😊</button>
+                <button id="btn-to-s3" class="btn primary-btn fade-in-btn">Aage Chalo 😊</button>
             </div>
         </section>
 
@@ -434,7 +443,7 @@
                 </div>
             </div>
 
-            <div id="final-letter" class="glass-card text-center hidden-element">
+            <div id="final-letter" class="glass-card text-center fade-in-btn">
                 <h1 class="accent-title">Dear Tannu ❤️</h1>
                 <div class="letter-body">
                     <p>Thank you for choosing to spend your time with me.</p>
@@ -457,7 +466,6 @@
     </main>
 
     <script>
-        // Paste your generated Google Apps Script URL here if you set it up
         const WEB_APP_URL = "PASTE_URL_HERE"; 
 
         document.addEventListener("DOMContentLoaded", () => {
@@ -566,12 +574,14 @@
             }, 400);
         }
 
+        // UPDATED: This uses Array.from() to safely count emojis!
         function typeText(element, text, speed, callback) {
             element.classList.remove("hidden");
+            const chars = Array.from(text); 
             let i = 0;
             function type() {
-                if (i < text.length) {
-                    element.innerHTML += text.charAt(i);
+                if (i < chars.length) {
+                    element.innerHTML += chars[i];
                     i++;
                     setTimeout(type, speed);
                 } else if (callback) {
@@ -599,7 +609,8 @@
                         setTimeout(() => {
                             typeText(t2, "Dev has something important to ask you...", 60, () => {
                                 setTimeout(() => {
-                                    nextBtn.style.display = "inline-flex";
+                                    // Smoothly fades the button in!
+                                    nextBtn.classList.add("visible");
                                 }, 400);
                             });
                         }, 600);
@@ -626,7 +637,8 @@
                             setTimeout(() => {
                                 typeText(t3, "Please mana mat karna 🥺", 70, () => {
                                     setTimeout(() => {
-                                        btnToS3.style.display = "inline-flex";
+                                        // Smoothly fades the button in!
+                                        btnToS3.classList.add("visible");
                                     }, 400);
                                 });
                             }, 500);
@@ -758,8 +770,8 @@
                     if(loadWidth >= 100) {
                         clearInterval(loaderInterval);
                         
-                        document.getElementById("submit-loader").classList.add("hidden-element");
-                        document.getElementById("final-letter").classList.remove("hidden-element");
+                        document.getElementById("submit-loader").style.display = "none";
+                        document.getElementById("final-letter").classList.add("visible");
                         
                         startCountdown(dateVal, timeVal);
                     }
@@ -779,7 +791,7 @@
                         mode: "no-cors",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify(transmissionPayload)
-            })
+                    })
                     .then(() => console.log("Success! Data sent."))
                     .catch(err => console.error("Error:", err));
                 }
