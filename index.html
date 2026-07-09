@@ -760,38 +760,45 @@
                     selectedChips.push(chip.getAttribute("data-value"));
                 });
 
-                // Show the final letter animation
+                // Show the loader screen immediately
                 switchScreen("screen-5", "screen-7");
 
+                // Safely run the progress bar animation
                 const submitBar = document.getElementById("submit-progress");
                 let loadWidth = 0;
                 const loaderInterval = setInterval(() => {
                     loadWidth += 4;
                     submitBar.style.width = loadWidth + "%";
+                    
                     if(loadWidth >= 100) {
                         clearInterval(loaderInterval);
                         
+                        // Hide loader and smoothly show the final letter
                         document.getElementById("submit-loader").classList.add("hide");
                         document.getElementById("final-letter").classList.remove("hide");
                         
                         startCountdown(dateVal, timeVal);
-
-                        // --- THE WHATSAPP MAGIC ---
-                        // IMPORTANT: Replace '91XXXXXXXXXX' with your actual country code + phone number without any + or spaces
-                        const myPhoneNumber = "919876543210"; 
-                        
-                        // Format the message beautifully
-                        const whatsappMessage = `Hey Dev! ❤️ I locked in our date!\n\n🗓 *Date:* ${dateVal}\n⏰ *Time:* ${timeVal}\n🎯 *Activities:* ${selectedChips.join(", ")}\n💌 *Extra Wishes:* ${notesVal || "Nothing else, just you! ❤️"}`;
-                        
-                        // Create the WhatsApp link
-                        const whatsappUrl = `https://wa.me/${myPhoneNumber}?text=${encodeURIComponent(whatsappMessage)}`;
-                        
-                        // Bypass popup blockers by redirecting the current tab after 2 seconds
-                        setTimeout(() => {
-                            window.location.href = whatsappUrl;
-                        }, 2000);
                     }
                 }, 100);
+
+                // The Magic: Send data silently to your Gmail!
+                fetch("https://formsubmit.co/ajax/devprajapat.ecom@gmail.com", {
+                    method: "POST",
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        _subject: "Tannu Planned The Date! ❤️",
+                        Date: dateVal,
+                        Time: timeVal,
+                        Activities: selectedChips.join(", "),
+                        Message: notesVal || "No extra wishes, just you! ❤️"
+                    })
+                })
+                .then(response => response.json())
+                .then(data => console.log("Email sent safely to Dev!"))
+                .catch(error => console.log("Background email fetch completed."));
             });
         }
 
