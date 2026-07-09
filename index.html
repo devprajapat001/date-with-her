@@ -1,39 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Date With Her ❤️</title>
-
+    <title>Operation Tannu ❤️</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
-
 <body>
 
-<div class="container">
+    <canvas id="ambient-canvas"></canvas>
 
-    <h1>Hey Beautiful ❤️</h1>
+    <button id="music-toggle" class="music-btn" aria-label="Toggle Music">
+        <span class="icon">🎵</span>
+    </button>
+    <audio id="bg-music" src="assets/music/romantic.mp3" loop></audio>
 
-    <p>Will you plan our next date with me? 🥹</p>
+    <main class="app-container">
+        
+        <section id="screen-1" class="screen active">
+            <div class="glass-card text-center">
+                <h1 class="protocol-title">Initializing Love Protocol...</h1>
+                <div class="progress-bar-container">
+                    <div id="loading-progress" class="progress-bar"></div>
+                </div>
+                <div class="typing-container">
+                    <p id="typing-s1-1" class="hidden"></p>
+                    <p id="typing-s1-2" class="hidden font-accent"></p>
+                </div>
+                <button id="btn-to-s2" class="btn primary-btn hidden-element">Continue ❤️</button>
+            </div>
+        </section>
 
-    <div class="buttons">
+        <section id="screen-2" class="screen">
+            <div class="glass-card text-center">
+                <div class="typing-container">
+                    <p id="typing-s2-1"></p>
+                    <p id="typing-s2-2" class="highlight"></p>
+                    <p id="typing-s2-3" class="soft-text"></p>
+                </div>
+                <button id="btn-to-s3" class="btn primary-btn hidden-element">Aage Chalo 😊</button>
+            </div>
+        </section>
 
-        <button id="yesBtn">
-            Yes ❤️
-        </button>
+        <section id="screen-3" class="screen">
+            <div class="glass-card text-center relative-card">
+                <h2 class="question-text">Will you plan our next date with me? 🥺</h2>
+                <div class="btn-group">
+                    <button id="btn-yes" class="btn yes-btn">YES ❤️</button>
+                    <button id="btn-no" class="btn no-btn">NO 🙈</button>
+                </div>
+            </div>
+        </section>
 
-        <button id="noBtn">
-            No 🙈
-        </button>
+        <section id="screen-4" class="screen">
+            <div class="glass-card text-center">
+                <h2 class="section-title">Some Beautiful Memories ✨</h2>
+                <div class="slideshow-container">
+                    <div class="slide fade"><img src="assets/photos/1.jpg" alt="Memory 1"></div>
+                    <div class="slide fade"><img src="assets/photos/2.jpg" alt="Memory 2"></div>
+                    <div class="slide fade"><img src="assets/photos/3.jpg" alt="Memory 3"></div>
+                    <div class="slide fade"><img src="assets/photos/4.jpg" alt="Memory 4"></div>
+                    <div class="slide fade"><img src="assets/photos/5.jpg" alt="Memory 5"></div>
+                </div>
+                <button id="btn-to-s5" class="btn primary-btn">Let's Plan It! 🗓️</button>
+            </div>
+        </section>
 
-    </div>
+        <section id="screen-5" class="screen">
+            <div class="glass-card">
+                <h2 class="section-title text-center">Make it Perfect ✨</h2>
+                
+                <div class="form-group row">
+                    <div class="col">
+                        <label for="date-picker">Pick a Date</label>
+                        <input type="date" id="date-picker" required>
+                    </div>
+                    <div class="col">
+                        <label for="time-picker">Pick Time</label>
+                        <input type="time" id="time-picker" required>
+                    </div>
+                </div>
 
-</div>
+                <div class="form-group">
+                    <label>Select Activities (Multiple Allowed)</label>
+                    <div class="activity-grid">
+                        <div class="activity-chip" data-value="One Day Stay">One Day Stay 🏨</div>
+                        <div class="activity-chip" data-value="Movie">Movie 🎬</div>
+                        <div class="activity-chip" data-value="Dinner Date">Dinner Date 🕯️</div>
+                        <div class="activity-chip" data-value="Zoo">Zoo 🦁</div>
+                        <div class="activity-chip" data-value="Ralamandal">Ralamandal ⛰️</div>
+                        <div class="activity-chip" data-value="Casual Meet">Casual Meet ☕</div>
+                        <div class="activity-chip" data-value="Surprise Me">Surprise Me 🎁</div>
+                    </div>
+                </div>
 
-<script src="script.js"></script>
+                <div class="form-group">
+                    <label for="extra-notes">Anything else you want? ✨</label>
+                    <textarea id="extra-notes" rows="3" placeholder="Your wishes here..."></textarea>
+                </div>
+
+                <button id="btn-submit" class="btn primary-btn full-width">Lock it in ❤️</button>
+            </div>
+        </section>
+
+        <section id="screen-7" class="screen">
+            <div id="submit-loader" class="glass-card text-center">
+                <h2 class="protocol-title">Sending details to Dev's heart...</h2>
+                <div class="progress-bar-container">
+                    <div id="submit-progress" class="progress-bar"></div>
+                </div>
+            </div>
+
+            <div id="final-letter" class="glass-card text-center hidden-element">
+                <h1 class="accent-title">Dear Tannu ❤️</h1>
+                <div class="letter-body">
+                    <p>Thank you for choosing to spend your time with me.</p>
+                    <p class="highlight-phrase">No matter where we go...</p>
+                    <p class="deep-text">My favourite destination will always be beside you.</p>
+                </div>
+                
+                <div class="signature">
+                    <p>Love,</p>
+                    <p class="font-accent signature-name">Dev ❤️</p>
+                </div>
+
+                <div class="countdown-container">
+                    <h3>Countdown to our Special Day:</h3>
+                    <div id="countdown-timer">Setting up the clocks...</div>
+                </div>
+            </div>
+        </section>
+
+    </main>
 
 </body>
-
 </html>
